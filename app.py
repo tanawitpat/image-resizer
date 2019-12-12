@@ -3,27 +3,26 @@ from PIL import Image
  
 def resize_image(file_name, input_image_path, output_image_path, size: tuple):
     original_image = Image.open(input_image_path)
+    original_image_width = original_image.width
+    original_image_height = original_image.height
     print('{file_name} - The original image size is {wide} wide x {height} '
-          'high'.format(file_name=file_name, wide=original_image.width, height=original_image.height))
-    
-    image_ratio_width, image_ratio_height = width / original_image.width, height / original_image.height
-
-    if image_ratio_width < image_ratio_height:
-        resize_width = size[0]
-        resize_height = round(image_ratio_width * original_image.height)
-    else:
-        resize_width = round(image_ratio_height * original_image.width)
-        resize_height = size[1]
-
-    resized_image = original_image.resize((resize_width, resize_height), Image.ANTIALIAS)
-    background = Image.new('RGBA', (size[0], size[1]), (255, 255, 255, 255))
-    offset = (round((size[0] - resize_width) / 2), round((size[1] - resize_height) / 2))
-    background.paste(resized_image, offset)
-
+          'high'.format(file_name=file_name, wide=original_image_width, height=original_image_height))
+    bigside = find_bigside_size(original_image_width, original_image_height)
+    background = Image.new('RGBA', (bigside, bigside), (255, 255, 255, 255))
+    offset = (round((bigside - original_image_width) / 2), round((bigside - original_image_height) / 2))
+    background.paste(original_image, offset)
+    resized_image = background.resize((size[0], size[1]), Image.ANTIALIAS)
+    resized_image.save(output_image_path)
     print('{file_name} - The resized image size is {wide} wide x {height} '
           'high'.format(file_name=file_name, wide=resized_image.width, height=resized_image.height))
-    resized_image.save(output_image_path)
- 
+
+def find_bigside_size(original_image_width, original_image_height):
+    if original_image_width != original_image_height:
+        bigside = original_image_width if original_image_width > original_image_height else original_image_height
+    else:
+        bigside = original_image_width
+    return bigside
+
 def remove_output_files():
     outputFileList = os.listdir('output')
     for file in outputFileList:
@@ -31,8 +30,8 @@ def remove_output_files():
         print("{file_name} has been removed".format(file_name=file))
 
 if __name__ == '__main__':
-    width = 600
-    height = int(width * 3 / 4)
+    target_width = 600
+    target_height = target_width
 
     remove_output_files()
 
@@ -42,6 +41,6 @@ if __name__ == '__main__':
             resize_image(
                 file_name=file,
                 input_image_path="input/{}".format(file),
-                output_image_path='output/{}'.format(file),
-                size=(width, height)
+                output_image_path='output/{}.png'.format(os.path.splitext(file)[0]),
+                size=(target_width, target_height)
             )
