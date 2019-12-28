@@ -3,3 +3,6 @@ install:
 
 run:
 	python3 app.py
+
+run_compose:
+	docker-compose up

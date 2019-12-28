@@ -6,9 +6,12 @@
 
 ## Installation
 
+### 1. Using Python
+
 ```bash
 # 1. Clone the project
 git clone https://github.com/tanawitpat/image-resizer.git
+cd image-resizer
 
 # 2. Create and activate a virtual environment
 virtualenv env
@@ -16,9 +19,23 @@ source env/bin/activate
 
 # 3. Install dependencies
 make install
+
+# 4. Run the service
+make run
 ```
 
-## Usage
+### 2. Using Docker
+
+```bash
+# 1. Clone the project
+git clone https://github.com/tanawitpat/image-resizer.git
+cd image-resizer
+
+# 2. Run the service
+make run_compose
+```
+
+Images in the input directory will be resized and saved to the output directory.
 
 ```AsciiDoc
 .
@@ -34,4 +51,3 @@ make install
 +-- requirements.txt
 ```
 
-Run `make run` command. Images in the input directory will be resized and saved to the output directory.

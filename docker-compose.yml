@@ -1,0 +1,11 @@
+version: "3"
+services:
+  image-resizer:
+    container_name: image-resizer
+    image: image-resizer
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./input:/app/input
+      - ./output:/app/output
