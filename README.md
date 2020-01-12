@@ -6,7 +6,7 @@
 
 ## Installation
 
-### 1. Using Python
+### 1. Using Python with virtual environment
 
 ```bash
 # 1. Clone the project
@@ -20,7 +20,11 @@ source env/bin/activate
 # 3. Install dependencies
 make install
 
-# 4. Run the service
+# 4. Define TARGET_WIDTH and TARGET_HEIGHT (example: 600px)
+export TARGET_WIDTH=600
+export TARGET_HEIGHT=600
+
+# 5. Run the service
 make run
 ```
 
@@ -31,7 +35,9 @@ make run
 git clone https://github.com/tanawitpat/image-resizer.git
 cd image-resizer
 
-# 2. Run the service
+# 2. Define TARGET_WIDTH and TARGET_HEIGHT in .env
+
+# 3. Run the service
 make run_compose
 ```
 
@@ -50,4 +56,3 @@ Images in the input directory will be resized and saved to the output directory.
 +-- README.md
 +-- requirements.txt
 ```
-
